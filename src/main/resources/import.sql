@@ -1,1 +1,1 @@
-insert into inventory.product (productid, productname, productcode) values ('5001a8d0-0463-11ea-8d71-362b9e155667', 'Pencil', 'PL'), ('22acaba8-0523-11ea-8d71-362b9e155667', 'Pen', 'PN'), ('0de6a796-052d-11ea-8d71-362b9e155667', 'Book', 'BK');
+insert into inventory.product (productid, productname, productcode, active) values ('5001a8d0-0463-11ea-8d71-362b9e155667', 'Pencil', 'PL', true), ('22acaba8-0523-11ea-8d71-362b9e155667', 'Pen', 'PN', true), ('0de6a796-052d-11ea-8d71-362b9e155667', 'Book', 'BK', true);

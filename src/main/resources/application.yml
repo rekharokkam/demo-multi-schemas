@@ -16,6 +16,8 @@ app:
       driver-class-name: com.mysql.cj.jdbc.Driver # Fully qualified name of the JDBC driver. Auto-detected based on the URL by default.
 
 spring:
+  application:
+    name: multidbdemo
 #  jpa:
 #    database-platform: org.hibernate.dialect.MySQL5Dialect
 #    database: MYSQL
@@ -24,9 +26,7 @@ spring:
 #    hibernate: #this property is not being read
 #      ddl-auto: create-drop # DDL mode. This is actually a shortcut for the "hibernate.hbm2ddl.auto" property. Defaults to "create-drop" when using an embedded database and no schema manager was detected. Otherwise, defaults to "none".
 #      format_sql: true # To beautify or pretty print the SQL
-
-  application:
-    name: multi-db-demo
-
-  datasource:
-    initialization-mode: always
+server:
+  port: 9005
+  servlet:
+    context-path: /multidbdemo

@@ -1,5 +1,6 @@
 package com.target.demomultischemas.entity.inventory;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -22,9 +23,13 @@ public class Product {
     @Column(name = "productcode", nullable = false, length = 2, unique = true)
     private String productCode;
 
-    public Product(String productName, String productCode) {
+    @Column(name = "active", nullable = false, columnDefinition = "boolean default false")
+    private Boolean active;
+
+    public Product(String productName, String productCode, Boolean active) {
         this.productName = productName;
         this.productCode = productCode;
+        this.active = active;
     }
 
     public Product () {}
@@ -53,6 +58,14 @@ public class Product {
         this.productCode = productCode;
     }
 
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -68,10 +81,11 @@ public class Product {
 
     @Override
     public String toString() {
-        return "Product{" +
+        return "Product : {" +
                 "productId='" + productId + '\'' +
                 ", productName='" + productName + '\'' +
                 ", productCode='" + productCode + '\'' +
+                ", active='" + active + '\'' +
                 '}';
     }
 }

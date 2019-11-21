@@ -4,17 +4,15 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Objects;
-import java.util.UUID;
 
 @Entity
 @Table (name = "user_order", schema = "commerce")
 public class UserOrder {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid2")
     @Column(name = "orderid", length = 225)
-    private String orderid;
+    private String orderId;
 
     @Column(name = "productid", nullable = false, length = 225)
     private String productId;
@@ -25,20 +23,29 @@ public class UserOrder {
     @Column(name = "productname", nullable = false)
     private String productName;
 
+    @Transient
+    private  String productCode;
+
     public UserOrder(String productId, String productName, String productCode, int quantity) {
         this.productId = productId;
         this.quantity = quantity;
         this.productName = productName;
+        this.productCode = productCode;
+    }
+
+    public UserOrder (String productId, int quantity){
+        this.productId = productId;
+        this.quantity = quantity;
     }
 
     public UserOrder() {}
 
-    public String getOrderid() {
-        return orderid;
+    public String getOrderId() {
+        return orderId;
     }
 
-    public void setOrderid(String orderid) {
-        this.orderid = orderid;
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 
     public int getQuantity() {
@@ -65,26 +72,35 @@ public class UserOrder {
         this.productName = productName;
     }
 
+    public String getProductCode() {
+        return productCode;
+    }
+
+    public void setProductCode(String productCode) {
+        this.productCode = productCode;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserOrder userOrder = (UserOrder) o;
-        return orderid.equals(userOrder.orderid);
+        return orderId.equals(userOrder.orderId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(orderid);
+        return Objects.hash(orderId);
     }
 
     @Override
     public String toString() {
         return "UserOrder{" +
-                "orderid='" + orderid + '\'' +
+                "orderId='" + orderId + '\'' +
                 ", productId='" + productId + '\'' +
                 ", quantity=" + quantity + '\'' +
-                ", productName=" + productName +
+                ", productName=" + productName + '\'' +
+                ", productCode=" + productCode +
                 '}';
     }
 }
