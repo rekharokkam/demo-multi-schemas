@@ -62,6 +62,23 @@ public class ProductsController {
         return ResponseEntity.created(location).build();
     }
 
+    /**
+     * This method is only for testing the transaction across multiple databases. This is a bad design
+     * @param product
+     * @param uri
+     * @return
+     */
+    @PutMapping (path = "/userorders",
+            consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public Product updateProductName (@RequestBody Product product, String uri) {
+        log.info("Before Update of product Name : " + product);
+        Product updatedProduct = productService.updatedProductName(product);
+        log.info("Updated Product Name : " + updatedProduct);
+        return updatedProduct;
+    }
+
+
     @ExceptionHandler (value = DataIntegrityViolationException.class)
     private ResponseEntity<String> handleDataIntegrityViolationException (DataIntegrityViolationException ex){
         log.error("Error occurred while invoking some operation", ex);
