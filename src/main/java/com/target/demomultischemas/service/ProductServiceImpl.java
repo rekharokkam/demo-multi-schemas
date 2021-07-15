@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -19,17 +21,35 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService {
 
     private ProductRepo productRepo;
-    private UserOrderRepo userOrderRepo;
 
     @Autowired
-    public ProductServiceImpl (ProductRepo productRepo, UserOrderRepo userOrderRepo){
+    public ProductServiceImpl (ProductRepo productRepo){
         this.productRepo = productRepo;
-        this.userOrderRepo = userOrderRepo;
     }
 
+    /**
+     * This is ONLY for testing transactions across multiple databases.
+     * Manually exception is thrown to test transaction across multiple databases
+     * This is not recommended in production
+     * @param product
+     * @return
+     */
     @Override
     public Product updateProduct(Product product) {
-        Product updatedProduct = productRepo.save(product);
+
+        //update the basic product first
+        Product currentProduct = productRepo.getOne(product.getProductId());
+        if (! StringUtils.isEmpty(product.getProductName())) {
+            currentProduct.setProductName(product.getProductName());
+        }
+        if (! StringUtils.isEmpty(product.getProductCode())) {
+            currentProduct.setProductCode(product.getProductCode());
+        }
+        if (null != product.getActive()) {
+            currentProduct.setActive(product.getActive());
+        }
+        Product updatedProduct = productRepo.save(currentProduct);
+
         return updatedProduct;
     }
 
@@ -50,27 +70,5 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product createProduct(Product product) {
         return productRepo.save(product);
-    }
-
-    /**
-     * This is ONLY for testing transactions across multiple databases.
-     * This is not recommended in actual production
-     * @param product
-     * @return
-     */
-    @Override
-    public Product updatedProductName(Product product) {
-        Product updatedProduct = productRepo.save(product);
-        log.info("the updated product after name has been updated : " + updatedProduct);
-        //get all orders of the product
-        List<UserOrder> userOrdersOfAProduct = userOrderRepo.findByProductId(updatedProduct.getProductId());
-        for (UserOrder userOrder: userOrdersOfAProduct) {
-            userOrder.setProductName(updatedProduct.getProductName());
-        }
-
-        //Manually throwing error to simulate second update failure
-        throw new NullPointerException("Manually Simulated");
-//        List<UserOrder> updatedUserOrdersOfAProduct = userOrderRepo.saveAll(userOrdersOfAProduct);
-//        return updatedProduct;
     }
 }

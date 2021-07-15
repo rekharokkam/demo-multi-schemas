@@ -1,7 +1,7 @@
 app:
   datasource:
     commerce:
-      url: jdbc:mysql://localhost:3306/commerce?autoReconnect=true&useSSL=false
+      url: jdbc:mysql://localhost:3306/commerce?autoReconnect=true&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
       username: commerce
       password: commerce
       driver-class-name: com.mysql.cj.jdbc.Driver # Fully qualified name of the JDBC driver. Auto-detected based on the URL by default.
@@ -10,7 +10,7 @@ app:
 # The driver is automatically registered via the SPI and manual loading of the driver class is generally unnecessary.
 
     inventory:
-      url: jdbc:mysql://localhost:3306/inventory?autoReconnect=true&useSSL=false
+      url: jdbc:mysql://localhost:3306/inventory?autoReconnect=true&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
       username: inventory
       password: inventory
       driver-class-name: com.mysql.cj.jdbc.Driver # Fully qualified name of the JDBC driver. Auto-detected based on the URL by default.
